@@ -7,6 +7,7 @@ const sendButton = document.querySelector('#sendButton');
 const messageList = document.querySelector('#messagesList');
 const receiverName = document.querySelector('#receiverName');
 const setUserName = document.querySelector('#setUserName');
+const userList = document.querySelector('#userList');
 var connectionId;
 
 sendButton.disabled = true;
@@ -40,7 +41,6 @@ sendButton.onclick = (event) => {
                 }
             }
         });
-        
     }
     event.preventDefault();
 };
@@ -70,3 +70,15 @@ const DisplayMessage = (userName, message) => {
     li.textContent = `${userName}: ${message}`;
     messageList.append(li);
 };
+
+connection.on("DisplayActiveUsers", (users) => {
+    while (userList.hasChildNodes()) {
+        userList.removeChild(userList.firstChild);
+    }
+
+    for (const key in users) {
+        var li = document.createElement("li");
+        li.textContent = key;
+        userList.appendChild(li);
+    }
+});

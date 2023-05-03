@@ -18,9 +18,10 @@ namespace SignalRChatRoom.Hubs
             await Clients.Client(connectionId).SendAsync("ReceiveMessage", userName, message);
         }
 
-        public void AddUser(string userName, string connectionId)
+        public async Task AddUser(string userName, string connectionId)
         {
             activeUsers.Add(userName, connectionId);
+            await Clients.All.SendAsync("DisplayActiveUsers", activeUsers);
         }
 
         public Dictionary<string, string> GetActiveUsers()
@@ -31,6 +32,23 @@ namespace SignalRChatRoom.Hubs
         public string GetConnectionId()
         {
             return Context.ConnectionId;
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            var connectionId = GetConnectionId();
+
+            foreach (var user in activeUsers)
+            {
+                if (user.Value == connectionId)
+                {
+                    activeUsers.Remove(user.Key);
+                    break;
+                }
+            }
+
+            await Clients.All.SendAsync("DisplayActiveUsers", activeUsers);
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }
