@@ -2,7 +2,13 @@
 @{
 	ViewData["Title"] = "Chat Room";
 }
-<div class="container">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+@*<div class="container">
 	<div class="row p-1">
 		<div class="col-1">
 			<label for="userName">User Name:</label>
@@ -48,6 +54,54 @@
 		<div class="col-6">
 			<h5>Active Users:</h5>
 			<ul id="userList"></ul>
+		</div>
+	</div>
+</div>*@
+
+<div class="overlay">
+	<div class="username-div">
+		<span class="title">Enter a username</span>
+		<div>
+			<input type="text" id="username" placeholder="Username" />
+			<span id="error-message">Username already taken</span>
+		</div>
+		<button>Enter</button>
+	</div>
+</div>
+
+<div id="container" class="blur">
+	<div id="message-container" class="inner-container">
+		<div class="navbar">
+			<h1 class="title">Chat Room</h1>
+		</div>
+		<div id="message-div">
+			<ul id="message-list">
+				<li class="sender-message"><span><i class="fa-solid fa-lock"></i>Hello</span></li>
+				<li class="receiver-message"><span><span>Ramesh | </span>Hi</span></li>
+				<li class="receiver-message"><span><span><i class="fa-solid fa-lock"></i>Sam Chandra | </span>loremasdasdassdfghjhgfdsasdfghjkjhgfdsdfghjk</span></li>
+				<li class="sender-message"><span>What's up guys</span></li>
+				<li class="sender-message"><span>Please Response</span></li>
+				<li class="receiver-message"><span><span>Sam Chandra | </span>loremasdasdassdfghjhgfdsasdfghjkjhgfdsdfghjk</span></li>
+				<li class="receiver-message"><span><span>Ramesh | </span>No Response</span></li>
+			</ul>
+		</div>
+		<div id="send-message-container">
+			<span>To: Ramesh <i class="fa-regular fa-circle-xmark" id="cancel-selection"></i> |</span>
+			<input type="text" id="message" placeholder="Enter message" />
+			<button id="send-button"><i class="fa-sharp fa-solid fa-paper-plane"></i></button>
+		</div>
+	</div>
+
+	<div id="user-container" class="inner-container">
+		<div class="navbar">
+			<h1 class="title">Active Users</h1>
+		</div>
+		<div id="user-div">
+			<ul id="user-list">
+				<li><i class="fa-solid fa-user"></i>Dipesh</li>
+				<li><i class="fa-solid fa-user"></i>Ramesh<i class="fa-solid fa-lock"></i></li>
+				<li><i class="fa-solid fa-user"></i>Sam Chandra</li>
+			</ul>
 		</div>
 	</div>
 </div>
