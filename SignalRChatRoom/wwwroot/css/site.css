@@ -38,6 +38,7 @@ body {
     color: #0984e3;
     font-size: 2em;
     margin: 0 auto;
+    user-select: none;
 }
 
 #message-container {
@@ -53,42 +54,59 @@ body {
 }
 
 #message-list {
-    list-style-type: none;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
-#message-list li {
-    text-decoration: none;
-    margin: 20px 0;
-}
-
-#message-list li > span {
-    padding: 10px;
-    border-radius: 50px;
-}
-
-.fa-lock {
-    margin-right: 10px;
-    color: #f9ca24 !important;
-}
-
-.sender-message {
+.send-message {
+    align-self: flex-end;
     text-align: right;
+    flex: 1;
 }
 
-.sender-message > span {
-    background-color: #0984e3;
+.receive-message {
+    align-self: flex-start;
+    text-align: left;
+}
+
+.send-message, .receive-message {
+    margin-bottom: 0.5rem;
     margin-right: 20px;
 }
 
-.receiver-message > span {
-    background-color: #333333;
-    max-width: 10px;
+    .send-message p, .receive-message p {
+        padding: 7px 15px;
+        border-radius: 20px;
+        margin: 0;
+        display: inline-block;
+    }
+
+    .send-message p {
+        background-color: #0984e3;
+    }
+
+    .receive-message p {
+        background-color: #333333;
+    }
+
+    .send-message span, .receive-message span {
+        display: inline-block;
+        margin-left: 15px;
+    }
+
+    .send-message span {
+        margin-bottom: 10px;
+    }
+
+    .receive-message span {
+        margin-top: 10px;
+    }
+
+.fa-lock {
+    margin-left: 10px;
+    color: #f9ca24 !important;
 }
 
-.receiver-message > span > span  {
-    color: gray;
-}
 
 #send-message-container {
     display: flex;
@@ -112,18 +130,15 @@ body {
     background: none;
     border: none;
     outline: none;
-    color: #0984e3;
+    color: gray;
     font-size: 20px;
     transform: translateX(5px);
-    transition: 0.2s ease;
-}
-
-#send-button i:hover {
-    transform: rotate(45deg);
+    cursor: auto;
 }
 
 #send-message-container > span {
     color: gray;
+    user-select: none;
 }
 
 ::-webkit-scrollbar {
@@ -135,7 +150,7 @@ body {
 }
 
 #user-div {
-    margin: 1rem 0;
+    margin: 1rem 0 0 0;
     flex: 1;
     overflow-y: scroll;
 }
@@ -145,21 +160,14 @@ body {
     padding: 10px;
 }
 
-#user-list > li {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    gap: 10px;
-}
-
-#cancel-selection {
-    cursor: pointer;
-}
-
-#cancel-selection:hover {
-    color: #d63031;
-}
+    #user-list > li {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        gap: 10px;
+    }
 
 .user-selected {
     color: #0984e3;
@@ -190,25 +198,29 @@ body {
     text-align: center;
 }
 
-.username-div input {
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #333333;
-    border: none;
-    outline: none;
-    width: 100%;
-    color: white;
-    margin-bottom: 15px;
-}
+    .username-div > div {
+        width: 100%;
+    }
 
-.username-div button {
-    background-color: #0984e3;
-    border: none;
-    outline: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 50px;
-}
+    .username-div input {
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: #333333;
+        border: none;
+        outline: none;
+        width: 100%;
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    .username-div button {
+        background-color: #444444;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+    }
 
 #error-message {
     color: red;
@@ -216,4 +228,43 @@ body {
 
 .blur {
     filter: blur(8px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.tool-tip {
+    position: relative;
+}
+
+.tool-tip .tooltiptext {
+    visibility: hidden;
+    width: 400px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 200%;
+    left: 70%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tool-tip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 14%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tool-tip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
 }

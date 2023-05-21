@@ -4,23 +4,24 @@ namespace SignalRChatRoom.Hubs
 {
     public class ChatHub : Hub
     {
-        private static Dictionary<string, string> activeUsers = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> activeUsers = new();
 
         public async Task SendMessageToAll(string userName, string message)
         {
-            await Clients.Caller.SendAsync("SendMessage", message);
-            await Clients.Others.SendAsync("ReceiveMessage", userName, message);
+            await Clients.Caller.SendAsync("SendMessage", message, false);
+            await Clients.Others.SendAsync("ReceiveMessage", userName, message, false);
         }
 
         public async Task SendMessageToUser(string userName, string connectionId, string message)
         {
-            await Clients.Caller.SendAsync("SendMessage", message);
-            await Clients.Client(connectionId).SendAsync("ReceiveMessage", userName, message);
+            await Clients.Caller.SendAsync("SendMessage", message, true);
+            await Clients.Client(connectionId).SendAsync("ReceiveMessage", userName, message, true);
         }
 
         public async Task AddUser(string userName, string connectionId)
         {
             activeUsers.Add(userName, connectionId);
+            await Clients.All.SendAsync("UserJoined", userName);
             await Clients.All.SendAsync("DisplayActiveUsers", activeUsers);
         }
 
@@ -37,16 +38,19 @@ namespace SignalRChatRoom.Hubs
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             var connectionId = GetConnectionId();
+            var userName = "";
 
             foreach (var user in activeUsers)
             {
                 if (user.Value == connectionId)
                 {
+                    userName = user.Key;
                     activeUsers.Remove(user.Key);
                     break;
                 }
             }
 
+            await Clients.All.SendAsync("UserLeft", userName);
             await Clients.All.SendAsync("DisplayActiveUsers", activeUsers);
             await base.OnDisconnectedAsync(exception);
         }
