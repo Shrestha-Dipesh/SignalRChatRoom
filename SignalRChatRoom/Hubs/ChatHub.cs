@@ -8,14 +8,16 @@ namespace SignalRChatRoom.Hubs
 
         public async Task SendMessageToAll(string userName, string message)
         {
-            await Clients.Caller.SendAsync("SendMessage", message, false);
-            await Clients.Others.SendAsync("ReceiveMessage", userName, message, false);
+            bool isPrivate = false;
+            await Clients.Caller.SendAsync("SendMessage", message, isPrivate);
+            await Clients.Others.SendAsync("ReceiveMessage", userName, message, isPrivate);
         }
 
         public async Task SendMessageToUser(string userName, string connectionId, string message)
         {
-            await Clients.Caller.SendAsync("SendMessage", message, true);
-            await Clients.Client(connectionId).SendAsync("ReceiveMessage", userName, message, true);
+            bool isPrivate = true;
+            await Clients.Caller.SendAsync("SendMessage", message, isPrivate);
+            await Clients.Client(connectionId).SendAsync("ReceiveMessage", userName, message, isPrivate);
         }
 
         public async Task AddUser(string userName, string connectionId)

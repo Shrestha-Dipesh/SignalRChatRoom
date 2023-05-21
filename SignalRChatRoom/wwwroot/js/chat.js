@@ -41,7 +41,6 @@ const SendMessage = () => {
                 });
         }
         else {
-            //Private message not working
             connection.invoke("GetActiveUsers").then((list) => {
                 for (var user in list) {
                     if (user == messageTo.textContent) {
