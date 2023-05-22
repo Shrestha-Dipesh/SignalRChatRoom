@@ -111,7 +111,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
     padding: 10px 20px;
     border-radius: 50px;
     background-color: #333333;
@@ -138,6 +138,8 @@ body {
 #send-message-container>span {
     color: gray;
     user-select: none;
+    border-right: 1px solid gray;
+    padding-right: 10px;
 }
 
 ::-webkit-scrollbar {
@@ -262,4 +264,34 @@ body {
 .tool-tip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+@media screen and (max-width: 1119px) {
+    #message-container {
+        flex: 3;
+    }
+}
+
+@media screen and (max-width: 930px) {
+    #message-container {
+        flex: 2;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    #container {
+        flex-direction: column;
+    }
+
+    #message-container {
+        height: 10px;
+    }
+
+    #user-container {
+        height: 10px;
+    }
+
+    #user-div {
+        flex: 1;
+    }
 }
